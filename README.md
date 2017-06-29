@@ -19,7 +19,7 @@ flynn_cluster_name: acme-cluster      # Defines the cluster name
 
 Example Playbook
 ----------------
-'''
+```
 - hosts: flynn
   become: true
   tasks:
@@ -29,11 +29,11 @@ Example Playbook
       vars:
         flynn_master: flynn-master-node.acme
         flynn_cluster_name: acme-cluster
-'''
+```
 
 Exemple Inventory
 -----------------
-
+```
 [flynn]
 flynn01
 flynn02
@@ -43,13 +43,16 @@ flynn03
 flynn02
 flynn03
 
+```
 Example Tests
 ------------
 
-Look in /tests
+```
+$ cd tests
+$ vagrant up
+$ ansible -v test.yml -i inventory
 
-$vagrant up
-$ansible -v test.yml -i inventory
+```
 License
 -------
 
