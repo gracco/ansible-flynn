@@ -12,10 +12,10 @@ Ubuntu 16.04
 
 Role Variables
 --------------
-
+```
 flynn_master: flynn-master-node.acme  #Defines the master node
 flynn_cluster_name: acme-cluster      # Defines the cluster name
-
+``` 
 
 Example Playbook
 ----------------
