@@ -61,5 +61,4 @@ BSD
 Author Information
 ------------------
 
-github.com/gracco
-gracco.cerqueira@gmail.com
+github.com/gracco - gracco.cerqueira@gmail.com
