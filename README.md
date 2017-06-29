@@ -19,7 +19,7 @@ flynn_cluster_name: acme-cluster      # Defines the cluster name
 
 Example Playbook
 ----------------
-
+'''
 - hosts: flynn
   become: true
   tasks:
@@ -29,6 +29,7 @@ Example Playbook
       vars:
         flynn_master: flynn-master-node.acme
         flynn_cluster_name: acme-cluster
+'''
 
 Exemple Inventory
 -----------------
