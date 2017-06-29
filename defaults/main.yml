@@ -1,0 +1,4 @@
+---
+# defaults file for flynn
+flynn_master:
+flynn_cluster_name:

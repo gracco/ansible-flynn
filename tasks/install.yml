@@ -1,0 +1,46 @@
+- name: Get flynn install script
+  get_url:
+    url: https://dl.flynn.io/install-flynn
+    dest: /opt/install-flynn
+    mode: 0755
+
+- name: Check flynn
+  shell: flynn-host --version
+  ignore_errors: true
+  register: is_flynn_installed
+
+- name: Check if cluster was deployed
+  shell: curl -I http://dashboard."{{ flynn_cluster_name }}"/
+  ignore_errors: true
+  register: is_flynn_deployed
+
+- name: Install flynn
+  shell: bash /opt/install-flynn
+  when: is_flynn_installed|failed
+
+- name: Generate discovery hash
+  shell: flynn-host init --init-discovery
+  register: flynn_hash
+  delegate_to: "{{ flynn_master }}"
+  run_once: True
+  when: is_flynn_deployed|failed
+
+- name: Create flynn cluster with discovery hash
+  shell: flynn-host init --discovery "{{ flynn_hash.stdout}}"
+  when: inventory_hostname in groups['flynn_nodes'] and is_flynn_deployed|failed
+  notify: Restart flynn
+
+- name: Make sure a service is running
+  systemd:
+    state: started
+    name: flynn-host
+    enabled: True
+
+- name: Bootstrap cluster
+  shell: CLUSTER_DOMAIN="{{ flynn_cluster_name }}" \
+         flynn-host bootstrap \
+         --min-hosts 3 \
+         --discovery "{{ flynn_hash.stdout}}"
+  delegate_to: "{{ flynn_master }}"
+  run_once: True
+  when: is_flynn_deployed|failed

@@ -1,0 +1,7 @@
+---
+# handlers file for flynn
+- name: Restart flynn
+  systemd:
+    state: restarted
+    name: flynn-host
+    enabled: true

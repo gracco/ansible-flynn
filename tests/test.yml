@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: true
+  vars:
+    flynn_master: flynn01
+    flynn_cluster_name: flynncluster
+  roles:
+    - ../../

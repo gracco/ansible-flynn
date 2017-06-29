@@ -1,0 +1,5 @@
+---
+# tasks file for flynn
+- name: Include install.yml
+  include: install.yml
+  become: true

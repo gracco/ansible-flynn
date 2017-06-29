@@ -1,0 +1,51 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANT_API_VERSION = 2
+
+Vagrant.configure(VAGRANT_API_VERSION) do |config|
+  config.ssh.insert_key = false
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
+  config.hostmanager.manage_guest = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
+
+
+  config.vm.define 'flynn01' do |default1|
+    default1.vm.hostname = 'flynn01'
+    default1.vm.box = "v0rtex/xenial64"
+    default1.vm.network "private_network", ip: "192.168.56.11"
+    default1.hostmanager.aliases = %w(flynn01 flynncluster)
+    default1.vm.provision 'shell', inline: <<-SHELL
+      sudo ln -s /usr/bin/python3 /usr/bin/python;
+      sudo systemctl stop apt-daily.timer;
+      sudo systemctl disable apt-daily.timer;
+      sudo pkill apt
+    SHELL
+  end
+  config.vm.define 'flynn02' do |default2|
+    default2.vm.hostname = 'flynn02'
+    default2.vm.box = "v0rtex/xenial64"
+    default2.vm.network "private_network",  ip: "192.168.56.12"
+    default2.hostmanager.aliases = %w(flynn02 flynncluster)
+    default2.vm.provision 'shell', inline: <<-SHELL
+      sudo ln -s /usr/bin/python3 /usr/bin/python;
+      sudo systemctl stop apt-daily.timer;
+      sudo systemctl disable apt-daily.timer;
+      sudo pkill apt
+    SHELL
+  end
+  config.vm.define 'flynn03' do |default3|
+    default3.vm.hostname = 'flynn03'
+    default3.vm.box = "v0rtex/xenial64"
+    default3.vm.network "private_network", ip: "192.168.56.13"
+    default3.hostmanager.aliases = %w(flynn03 flynncluster)
+    default3.vm.provision 'shell', inline: <<-SHELL
+      sudo ln -s /usr/bin/python3 /usr/bin/python;
+      sudo systemctl stop apt-daily.timer;
+      sudo systemctl disable apt-daily.timer;
+      sudo pkill apt
+    SHELL
+  end
+end
